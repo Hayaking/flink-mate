@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'java-library'
+    id "io.freefair.aspectj.post-compile-weaving" version "5.3.3.3"
+    id "application"
+    id "groovy"
+    id "com.github.johnrengelman.shadow" version '7.1.2'
+    id 'com.github.ben-manes.versions' version '0.38.0'
+}
+
+group 'org.haya.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    jcenter() // this applies only to the Gradle 'Shadow' plugin
+    mavenLocal()
+    maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
+    maven { url "https://maven.aliyun.com/nexus/content/repositories/jcenter" }
+    mavenCentral()
+    maven { url "https://www.jitpack.io" }
+}
+
+ext {
+    flinkVersion = "1.13.2"
+    scalaBinaryVersion = '2.11'
+    logbackVersion = "1.2.10"
+    lombokVersion = "1.18.22"
+}
+
+dependencies {
+    compileOnlyApi 'org.aspectj:aspectjrt:1.9.6'
+    inpath(project(":core"))
+    implementation(project(":core"))
+
+
+    implementation "org.apache.flink:flink-connector-kafka_${scalaBinaryVersion}:${flinkVersion}"
+    implementation "org.apache.flink:flink-connector-kafka_${scalaBinaryVersion}:${flinkVersion}"
+    "org.apache.flink:flink-connector-kafka-base_${scalaBinaryVersion}:1.11.6"
+
+    implementation "org.apache.flink:flink-connector-kafka_${scalaBinaryVersion}:${flinkVersion}"
+    "org.apache.flink:flink-streaming-java_${scalaBinaryVersion}:${flinkVersion}"
+    implementation "org.apache.flink:flink-connector-kafka_${scalaBinaryVersion}:${flinkVersion}"
+    "org.apache.flink:flink-core:${flinkVersion}"
+    implementation "org.apache.flink:flink-connector-kafka_${scalaBinaryVersion}:${flinkVersion}"
+    implementation "org.apache.flink:flink-java:${flinkVersion}"
+    implementation "org.apache.flink:flink-clients_${scalaBinaryVersion}:${flinkVersion}"
+    implementation "org.apache.flink:flink-table-api-java-bridge_${scalaBinaryVersion}:${flinkVersion}"
+    implementation "org.apache.flink:flink-table-planner-blink_${scalaBinaryVersion}:${flinkVersion}"
+    implementation "org.apache.flink:flink-table-planner_${scalaBinaryVersion}:${flinkVersion}"
+    implementation "org.apache.flink:flink-json:${flinkVersion}"
+    implementation "org.apache.flink:flink-connector-jdbc_${scalaBinaryVersion}:${flinkVersion}"
+    implementation "org.apache.flink:flink-cep_${scalaBinaryVersion}:${flinkVersion}"
+    implementation "org.apache.flink:flink-statebackend-rocksdb_${scalaBinaryVersion}:${flinkVersion}"
+
+}
+
+compileJava {
+    ajc {
+        enabled = true
+        classpath
+        options {
+            aspectpath.setFrom configurations.aspect
+        }
+    }
+}
